@@ -1,0 +1,137 @@
+#!/usr/bin/env python3.11
+
+import os
+import re
+import sys
+import yaml
+import shutil
+
+RED = "\033[91m"
+YELLOW = "\033[93m"
+GREEN = "\033[92m"
+CYAN = "\033[96m"
+RESET = "\033[0m"
+
+def error(msg):
+    print(f"{RED}[ Common-IP ERROR ]: {msg}{RESET}", file=sys.stderr)
+
+def warning(msg):
+    print(f"{YELLOW}[ Common-IP WARNING ]: {msg}{RESET}")
+
+def info(msg):
+    print(f"{YELLOW}[ Common-IP Info ]: {msg}{RESET}")
+
+def success(msg):
+    print(f"{GREEN}[ Common-IP OK ]: {msg}{RESET}")
+
+def find_repo_root(script_dir):
+    ip_dir = os.path.dirname(script_dir)          # hw/ip
+    hw_dir = os.path.dirname(ip_dir)              # hw
+    return os.path.dirname(hw_dir)                # repo root
+
+def build_new_filename_from_orig(fname, project_name):
+    prefix = "jlsemi_util_"
+    base, ext = os.path.splitext(fname)
+    if base.startswith(prefix):
+        rest = base[len(prefix):]
+        new_base = f"{prefix}{project_name}_{rest}" if rest else f"{prefix}{project_name}"
+        return new_base + ext
+    else:
+        warning(f"Filename does not start with '{prefix}': {fname}. Keeping original name.")
+        return fname
+
+def process_file(rtl_dir, out_dir, fname, project_name):
+    if not fname.endswith((".v", ".sv")):
+        return False
+
+    fpath = os.path.join(rtl_dir, fname)
+    try:
+        with open(fpath, "r", encoding="utf-8") as f:
+            content = f.read()
+    except Exception as e:
+        warning(f"Cannot read {fname}: {e}")
+        return False
+
+    new_content = content.replace("*Replace*", f"{project_name}_")
+
+    new_fname = build_new_filename_from_orig(fname, project_name)
+    success(f"Generated common ip sverilog: {new_fname}.")
+
+    out_path = os.path.join(out_dir, new_fname)
+    if os.path.exists(out_path):
+        new_base, ext = os.path.splitext(new_fname)
+        orig_base, _ = os.path.splitext(fname)
+        unique_fname = f"{new_base}__{orig_base}{ext}"
+        warning(f"Output file exists: {new_fname}, rename to: {unique_fname}")
+        out_path = os.path.join(out_dir, unique_fname)
+
+    try:
+        with open(out_path, "w", encoding="utf-8") as f:
+            f.write(new_content)
+        return True
+    except Exception as e:
+        error(f"Failed to write {out_path}: {e}")
+        return False
+
+def process_all(rtl_dir, out_dir, project_name):
+    processed = 0
+    for fname in sorted(os.listdir(rtl_dir)):
+        if process_file(rtl_dir, out_dir, fname, project_name):
+            processed += 1
+    return processed
+
+def main():
+    script_dir = os.path.dirname(os.path.abspath(__file__))
+    rtl_dir = os.path.join(script_dir, "rtl")
+    cfg_path = os.path.join(script_dir, "config.yml")
+
+    if not os.path.exists(cfg_path):
+        error(f"Config file not found: {cfg_path}")
+        sys.exit(1)
+    if not os.path.isdir(rtl_dir):
+        error(f"RTL directory not found: {rtl_dir}")
+        sys.exit(1)
+
+    # ---- Load config ----
+    try:
+        with open(cfg_path, "r", encoding="utf-8") as f:
+            config = yaml.safe_load(f)
+    except Exception as e:
+        error(f"Failed to parse config.yml: {e}")
+        sys.exit(1)
+
+    project_name = str(config.get("prj", "")).strip()
+    ip_name = str(config.get("ip_name", "")).strip()
+    if project_name in ("", None, "None"):
+        error("Missing 'prj' in config.yml")
+        sys.exit(1)
+    if ip_name in ("", None, "None"):
+        error("Missing 'ip_name' in config.yml")
+        sys.exit(1)
+
+    # add project_name to ip_name
+    if ip_name.startswith("jlsemi_util_") and f"_{project_name}_" not in ip_name:
+        ip_name = ip_name.replace("jlsemi_util_", f"jlsemi_util_{project_name}_")
+
+    # ---- Output dir ----
+    repo_root = find_repo_root(script_dir)
+    out_dir = os.path.join(repo_root, "builds", "verilog", "ip", ip_name)
+    if os.path.exists(out_dir):
+        info(f"Output dir exists, clearing: {out_dir}")
+        shutil.rmtree(out_dir)
+    os.makedirs(out_dir, exist_ok=True)
+
+    info(f"Project name: {project_name}")
+    info(f"IP name: {ip_name}")
+    info(f"RTL input dir: {rtl_dir}")
+    info(f"Output dir: {out_dir}")
+
+    processed = process_all(rtl_dir, out_dir, project_name)
+
+    if processed == 0:
+        warning("No RTL files processed.")
+    else:
+        success(f"All replacements and file writes completed ({processed} files).")
+
+if __name__ == "__main__":
+    main()

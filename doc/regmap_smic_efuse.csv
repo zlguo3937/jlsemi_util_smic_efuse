@@ -1,0 +1,160 @@
+#,0x0,efuse_op,EFUSE_CTRL,,,,,,,,,,,,,
+,Range,Reset,Type,Name,Clock Domain,Event,Soft Reset,CDC Buffer,Desc,,,,,,,
+,[2],0x0,SCREG,efuse_en,,,,,,,,,,,,
+,[1],0x0,RWR,efuse_write_en,,,,,,,,,,,,
+,[0],0x0,ROLH,efuse_ready,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,
+#,0x1,efuse_addr,EFUSE_CTRL,,,,,,,,,,,,,
+,Range,Reset,Type,Name,Clock Domain,Event,Soft Reset,CDC Buffer,Desc,,,,,,,
+,[5:0],0x0,RWR,efuse_addr,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,
+#,0x3,efuse_wdata,EFUSE_CTRL,,,,,,,,,,,,,
+,Range,Reset,Type,Name,Clock Domain,Event,Soft Reset,CDC Buffer,Desc,,,,,,,
+,[15:0],0x0,RWR,efuse_wdata,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,
+#,0x4,efuse_rdata,EFUSE_CTRL,,,,,,,,,,,,,
+,Range,Reset,Type,Name,Clock Domain,Event,Soft Reset,CDC Buffer,Desc,,,,,,,
+,[15:0],0x0,RODEV,efuse_rdata,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,
+#,0x5,T_PGM,EFUSE_CFG,,,,,,,,,,,,,
+,Range,Reset,Type,Name,Clock Domain,Event,Soft Reset,CDC Buffer,Desc,25MHz: SMIC40 Value,50MHz: SMIC40 Value,100MHz: SMIC40 Value,,25MHz: SMIC28 Value,50MHz: SMIC28 Value,100MHz: SMIC28 Value
+,[10:0],0xfb,RWR,T_PGM,,,,,"Burning time: 
+1. SMIC40 Min = 9000ns, Typ = 10000ns, Max = 11000ns
+2. SMIC28 Min = 10800ns, Typ = 12000ns, Max = 13200ns",0xfb,0x1f5,0x3e9,,0x12d,0x259,0x4b1
+,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,
+#,0x6,T_WR_AEN,EFUSE_CFG,,,,,,,,,,,,,
+,Range,Reset,Type,Name,Clock Domain,Event,Soft Reset,CDC Buffer,Desc,25MHz:SMIC40 Value,50MHz: SMIC40 Value,100MHz:SMIC40 Value,,25MHz:SMIC28 Value,50MHz: SMIC28 Value,100MHz:SMIC28 Value
+,[10:0],0x12a,RWR,T_WR_AEN,,,,,"Address enable cycle time: 
+1. SMIC40 Min = T_PGAM + 1900ns
+2. SMIC28 Min = T_PGAM + 3800ns",0x12a,0x254,0x4a7,,0x18c,0x317,0x62d
+,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,
+#,0x7,T_HP_A,EFUSE_CFG,,,,,,,,,,,,,
+,Range,Reset,Type,Name,Clock Domain,Event,Soft Reset,CDC Buffer,Desc,25MHz:SMIC40 Value,50MHz: SMIC40 Value,100MHz:SMIC40 Value,,25MHz:SMIC28 Value,50MHz: SMIC28 Value,100MHz:SMIC28 Value
+,[2:0],0x2,RWR,T_HP_A,,,,,"Address hold time from AEN: 
+1. SMIC40 Min = 50ns
+2. SMIC28 Min = 50ns",0x2,0x3,0x6,,0x2,0x3,0x6
+,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,
+#,0x8,T_SP_PGM,EFUSE_CFG,,,,,,,,,,,,,
+,Range,Reset,Type,Name,Clock Domain,Event,Soft Reset,CDC Buffer,Desc,25MHz:SMIC40 Value,50MHz: SMIC40 Value,100MHz:SMIC40 Value,,25MHz:SMIC28 Value,50MHz: SMIC28 Value,100MHz:SMIC28 Value
+,[3:0],0x3,RWR,T_SP_PGM,,,,,"PGMEN signal to AEN setup time: 
+1. SMIC40 Min = 100ns
+2. SMIC28 Min = 100ns",0x3,0x6,0xb,,0x3,0x6,0xb
+,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,
+#,0x9,T_HP_PGM,EFUSE_CFG,,,,,,,,,,,,,
+,Range,Reset,Type,Name,Clock Domain,Event,Soft Reset,CDC Buffer,Desc,25MHz:SMIC40 Value,50MHz: SMIC40 Value,100MHz:SMIC40 Value,,25MHz:SMIC28 Value,50MHz: SMIC28 Value,100MHz:SMIC28 Value
+,[3:0],0x3,RWR,T_HP_PGM,,,,,"AEN to PGMEN signal hold time: 
+1. SMIC40 Min = 100ns
+2. SMIC28 Min = 100ns",0x3,0x6,0xb,,0x3,0x6,0xb
+,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,
+#,0xa,T_HP_RD,EFUSE_CFG,,,,,,,,,,,,,
+,Range,Reset,Type,Name,Clock Domain,Event,Soft Reset,CDC Buffer,Desc,25MHz:SMIC40 Value,50MHz: SMIC40 Value,100MHz:SMIC40 Value,,25MHz:SMIC28 Value,50MHz: SMIC28 Value,100MHz:SMIC28 Value
+,[4:0],0x4,RWR,T_HP_RD,,,,,"AVDD to RDEN signal hold time: 
+1. SMIC40 Min = 150ns
+2. SMIC28 Min = 150ns",0x4,0x8,0x10,,0x4,0x8,0x10
+,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,
+#,0xb,T_SP_PG_AVDD,EFUSE_CFG,,,,,,,,,,,,,
+,Range,Reset,Type,Name,Clock Domain,Event,Soft Reset,CDC Buffer,Desc,25MHz:SMIC40 Value,50MHz: SMIC40 Value,100MHz:SMIC40 Value,,25MHz:SMIC28 Value,50MHz: SMIC28 Value,100MHz:SMIC28 Value
+,[6:0],0x1a,RWR,T_SP_PG_AVDD,,,,,"AVDD to PGMEN setup time: 
+1. SMIC40 Min = 1000ns
+2. SMIC28 Min = 1000ns",0x1a,0x33,0x65,,0x1a,0x33,0x65
+,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,
+#,0xc,T_HP_PG_AVDD,EFUSE_CFG,,,,,,,,,,,,,
+,Range,Reset,Type,Name,Clock Domain,Event,Soft Reset,CDC Buffer,Desc,25MHz:SMIC40 Value,50MHz: SMIC40 Value,100MHz:SMIC40 Value,,25MHz:SMIC28 Value,50MHz: SMIC28 Value,100MHz:SMIC28 Value
+,[6:0],0x1a,RWR,T_HP_PG_AVDD,,,,,"PGMEN to AVDD hold time: 
+1. SMIC40 Min = 1000ns
+2. SMIC28 Min = 1000ns",0x1a,0x33,0x65,,0x1a,0x33,0x65
+,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,
+#,0xd,T_RD,EFUSE_CFG,,,,,,,,,,,,,
+,Range,Reset,Type,Name,Clock Domain,Event,Soft Reset,CDC Buffer,Desc,25MHz:SMIC40 Value,50MHz: SMIC40 Value,100MHz:SMIC40 Value,,25MHz:SMIC28 Value,50MHz: SMIC28 Value,100MHz:SMIC28 Value
+,[5:0],0x2,RWR,T_RD,,,,,"Read time: 
+1. SMIC40 Min = 40ns
+2. SMIC28 Min = 500ns",0x2,0x3,0x5,,0xd,0x1a,0x33
+,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,
+#,0xe,T_RD_AEN,EFUSE_CFG,,,,,,,,,,,,,
+,Range,Reset,Type,Name,Clock Domain,Event,Soft Reset,CDC Buffer,Desc,25MHz:SMIC40 Value,50MHz: SMIC40 Value,100MHz:SMIC40 Value,,25MHz:SMIC28 Value,50MHz: SMIC28 Value,100MHz:SMIC28 Value
+,[6:0],0x2,RWR,T_RD_AEN,,,,,"Address enable cycle time: 
+1. SMIC40 T_RD + 35ns
+2. SMIC28 T_RD + 500ns",0x2,0x4,0x8,,0x1a,0x33,0x65
+,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,
+#,0xf,T_SR_A,EFUSE_CFG,,,,,,,,,,,,,
+,Range,Reset,Type,Name,Clock Domain,Event,Soft Reset,CDC Buffer,Desc,25MHz:SMIC40 Value,50MHz: SMIC40 Value,100MHz:SMIC40 Value,,25MHz:SMIC28 Value,50MHz: SMIC28 Value,100MHz:SMIC28 Value
+,[1:0],0x1,RWR,T_SR_A,,,,,"Address to AEN setup time: 
+1. SMIC40 Min = 10ns
+2. SMIC28 Min = 10ns",0x1,0x1,0x2,,0x1,0x1,0x2
+,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,
+#,0x10,T_HR_A,EFUSE_CFG,,,,,,,,,,,,,
+,Range,Reset,Type,Name,Clock Domain,Event,Soft Reset,CDC Buffer,Desc,25MHz:SMIC40 Value,50MHz: SMIC40 Value,100MHz:SMIC40 Value,,25MHz:SMIC28 Value,50MHz: SMIC28 Value,100MHz:SMIC28 Value
+,[1:0],0x1,RWR,T_HR_A,,,,,"AEN to Address hold time: 
+1. SMIC40 Min = 10ns
+2. SMIC28 Min = 10ns",0x1,0x1,0x2,,0x1,0x1,0x2
+,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,
+#,0x11,T_SR_RD,EFUSE_CFG,,,,,,,,,,,,,
+,Range,Reset,Type,Name,Clock Domain,Event,Soft Reset,CDC Buffer,Desc,25MHz:SMIC40 Value,50MHz: SMIC40 Value,100MHz:SMIC40 Value,,25MHz:SMIC28 Value,50MHz: SMIC28 Value,100MHz:SMIC28 Value
+,[3:0],0x3,RWR,T_SR_RD,,,,,"RDEN signal to AEN setup time: 
+1. SMIC40 Min = 100ns
+2. SMIC28 Min = 100ns",0x3,0x6,0xb,,0x3,0x6,0xb
+,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,
+#,0x12,T_HR_RD,EFUSE_CFG,,,,,,,,,,,,,
+,Range,Reset,Type,Name,Clock Domain,Event,Soft Reset,CDC Buffer,Desc,25MHz:SMIC40 Value,50MHz: SMIC40 Value,100MHz:SMIC40 Value,,25MHz:SMIC28 Value,50MHz: SMIC28 Value,100MHz:SMIC28 Value
+,[3:0],0x3,RWR,T_HR_RD,,,,,"AEN to RDEN signal hold time:
+ 1. SMIC40 Min = 100ns
+2. SMIC28 Min = 100ns",0x3,0x6,0xb,,0x3,0x6,0xb
+,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,
+#,0x13,T_AVDD_DLY,EFUSE_CFG,,,,,,,,,,,,,
+,Range,Reset,Type,Name,Clock Domain,Event,Soft Reset,CDC Buffer,Desc,25MHz:SMIC40 Value,50MHz: SMIC40 Value,100MHz:SMIC40 Value,,25MHz:SMIC28 Value,50MHz: SMIC28 Value,100MHz:SMIC28 Value
+,[11:0],0x36c,RWR,T_AVDD_DLY,,,,,"AVDD_Analog_Delay (AVDD_Analog_Delay:AVDD_EN to AVDD(2P5V(1P8V) Active) delay)
+Eg: AVDD_Analog_delay = 35us",0x36c,0x6d7,0xdad,,0x36c,0x6d7,0xdad
+,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,
+#,0x20,smi_efuse_sel,smi_efuse_sel,,,,,,,,,,,,,
+,Range,Reset,Type,Name,Clock Domain,Event,Soft Reset,CDC Buffer,Desc,,,,,,,
+,[0],0x0,RWR,smi_efuse_sel,,,,,"enable smi acc efuse directly
+1-enable
+0-disenable",,,,,,,
+,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,
+#,0x21,smi_efuse_pgmen,smi_efuse_pgmen,,,,,,,,,,,,,
+,Range,Reset,Type,Name,Clock Domain,Event,Soft Reset,CDC Buffer,Desc,,,,,,,
+,[0],0x0,RWR,smi_efuse_pgmen,,,,,smi acc efuse: to Efuse PGMEN,,,,,,,
+,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,
+#,0x22,smi_efuse_rden,smi_efuse_rden,,,,,,,,,,,,,
+,Range,Reset,Type,Name,Clock Domain,Event,Soft Reset,CDC Buffer,Desc,,,,,,,
+,[0],0x0,RWR,smi_efuse_rden,,,,,smi acc efuse: to Efuse RDEN,,,,,,,
+,,,,,,,,,,,,,,,,
+#,0x23,smi_efuse_aen,smi_efuse_aen,,,,,,,,,,,,,
+,Range,Reset,Type,Name,Clock Domain,Event,Soft Reset,CDC Buffer,Desc,,,,,,,
+,[0],0x0,RWR,smi_efuse_aen,,,,,smi acc efuse: to Efuse AEN,,,,,,,
+,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,
+#,0x24,smi_efuse_avdd_en,smi_efuse_avdd_en,,,,,,,,,,,,,
+,Range,Reset,Type,Name,Clock Domain,Event,Soft Reset,CDC Buffer,Desc,,,,,,,
+,[0],0x0,RWR,smi_efuse_avdd_en,,,,,smi acc efuse: to analog AVDD_EN,,,,,,,
+,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,
+#,0x25,smi_efuse_a,smi_efuse_a,,,,,,,,,,,,,
+,Range,Reset,Type,Name,Clock Domain,Event,Soft Reset,CDC Buffer,Desc,,,,,,,
+,[11:0],0x0,RWR,smi_efuse_a,,,,,smi acc efuse: to Efuse address,,,,,,,
+,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,
+#,0x26,smi_efuse_d,smi_efuse_d,,,,,,,,,,,,,
+,Range,Reset,Type,Name,Clock Domain,Event,Soft Reset,CDC Buffer,Desc,,,,,,,
+,[15:0],0x0,ROR,smi_efuse_d,,,,,smi acc efuse: read data from Efuse,,,,,,,
