@@ -13,7 +13,7 @@ module jlsemi_util_*Replace*smic_efuse_regmap
     input   wire    [31:0]   pwdata,
  
     output  wire             pready,
-    output  wire    [15:0]   prdata,
+    output  wire    [31:0]   prdata,
 
     output  wire             pslverr,
 
@@ -293,7 +293,7 @@ module jlsemi_util_*Replace*smic_efuse_regmap
     assign  addr_0x26_sel_bus_rdata = {16'h0, smi_efuse_d_bus_rdata};
 
     // prdata: bus_rdata
-    assign prdata  =  bus_rdata[15:0];
+    assign prdata  =  bus_rdata;
 
     // pready: bus_ready
     assign  pready = penable;

@@ -83,11 +83,11 @@ module jlsemi_util_*Replace*smic_efuse_ctrl #(
     input   wire            psel,
     input   wire            penable,
     input   wire            pwrite,
-    input   wire    [20:0]  paddr,
-    input   wire    [15:0]  pwdata,
+    input   wire    [31:0]  paddr,
+    input   wire    [31:0]  pwdata,
 
     output  wire            pready,
-    output  wire    [15:0]  prdata,
+    output  wire    [31:0]  prdata,
     output  wire            pslverr,
 `else
     // Register config interface
@@ -264,8 +264,8 @@ module jlsemi_util_*Replace*smic_efuse_ctrl #(
     .psel                   (psel                   ),
     .penable                (penable                ),
     .pwrite                 (pwrite                 ),
-    .paddr                  ({ 11'h0, paddr }       ),
-    .pwdata                 ({ 16'h0, pwdata }      ),
+    .paddr                  (paddr                  ),
+    .pwdata                 (pwdata                 ),
     .pready                 (pready                 ),
     .prdata                 (prdata                 ),
     .pslverr                (pslverr                ),
