@@ -105,17 +105,17 @@ module jlsemi_util_*Replace*smic_efuse_adapter
                 EFUSE_SM_PGM_NXT_BIT = 8'h40,
                 EFUSE_SM_PGM_EXIT    = 8'h80;
 
-    assign rd_hi_oct_done = time_cnt == T_SR_RD + T_RD + T_HR_A;
-    assign rd_lo_oct_done = time_cnt == T_RD_AEN + T_HR_RD;
+    assign rd_hi_oct_done = time_cnt == T_SR_RD + T_RD + T_HR_A; // spyglass disable W362
+    assign rd_lo_oct_done = time_cnt == T_RD_AEN + T_HR_RD; // spyglass disable W362
 
-    assign pgm_fst_done = time_cnt == T_SP_PG_AVDD + T_AVDD_DLY + T_SP_PGM + T_PGM + T_HP_A;
-    assign pgm_nxt_done = time_cnt == T_WR_AEN + T_HP_A;
-    assign pgm_ext_done = time_cnt == T_HP_PGM + T_HP_PG_AVDD + T_AVDD_DLY + T_HP_RD;
+    assign pgm_fst_done = time_cnt == T_SP_PG_AVDD + T_AVDD_DLY + T_SP_PGM + T_PGM + T_HP_A; // spyglass disable W362
+    assign pgm_nxt_done = time_cnt == T_WR_AEN + T_HP_A; // spyglass disable W362
+    assign pgm_ext_done = time_cnt == T_HP_PGM + T_HP_PG_AVDD + T_AVDD_DLY + T_HP_RD; // spyglass disable W362
 
     assign pgm_done = pgm_cnt == num_ones;
 
     assign addr_hi_oct = addr_lo_oct + 1;
-    assign addr_lo_oct = reg_addr << 1;
+    assign addr_lo_oct = reg_addr << 1; // spyglass disable W164b
 
     /* ----------------------------------------------------
      Main FSM
@@ -241,9 +241,9 @@ module jlsemi_util_*Replace*smic_efuse_adapter
                 else
                     time_cnt <= #`delay time_cnt + 1'b1;
 
-                if (time_cnt == T_SR_RD)
+                if (time_cnt == T_SR_RD) // spyglass disable W362
                     AEN <= #`delay 1'b1;
-                else if (time_cnt == T_SR_RD + T_RD)
+                else if (time_cnt == T_SR_RD + T_RD) // spyglass disable W362
                     AEN <= #`delay 1'b0;
                 else if (time_cnt == T_SR_RD + T_RD + 1)
                     Q_HIGH <= #`delay D;
@@ -257,13 +257,13 @@ module jlsemi_util_*Replace*smic_efuse_adapter
                 else
                     time_cnt <= #`delay time_cnt + 1'b1;
 
-                if (time_cnt == T_RD_AEN - T_RD)
+                if (time_cnt == T_RD_AEN - T_RD) // spyglass disable W362
                     AEN   <= #`delay 1'b1;
-                else if (time_cnt == T_RD_AEN - T_RD + T_RD)
+                else if (time_cnt == T_RD_AEN - T_RD + T_RD) // spyglass disable W362
                     AEN   <= #`delay 1'b0;
                 else if (time_cnt == T_RD_AEN - T_RD + T_RD + 1)
                     Q_LOW <= #`delay D;
-                else if (time_cnt == T_RD_AEN - T_RD + T_RD + T_HR_RD) begin
+                else if (time_cnt == T_RD_AEN - T_RD + T_RD + T_HR_RD) begin // spyglass disable W362
                     RDEN  <= #`delay 1'b0;
                     rdata <= #`delay {Q_HIGH, Q_LOW};
                     rdata_vld <= #`delay 1'b1;
@@ -297,15 +297,15 @@ module jlsemi_util_*Replace*smic_efuse_adapter
                 else
                     time_cnt <= #`delay time_cnt + 1'b1;
 
-                if (time_cnt == T_SP_PG_AVDD + T_AVDD_DLY) begin
+                if (time_cnt == T_SP_PG_AVDD + T_AVDD_DLY) begin // spyglass disable W362
                     if (mask_data[0]) begin
                         A     <= #`delay { shift_cnt[2:0], reg_addr[ADDR_WIDTH-1:0], shift_cnt[3] };
                         PGMEN <= #`delay 1'b1;
                     end
                 end
-                else if (time_cnt == T_SP_PG_AVDD + T_AVDD_DLY + T_SP_PGM)
+                else if (time_cnt == T_SP_PG_AVDD + T_AVDD_DLY + T_SP_PGM) // spyglass disable W362
                     AEN <= #`delay 1'b1;
-                else if (time_cnt == T_SP_PG_AVDD + T_AVDD_DLY + T_SP_PGM + T_PGM) begin
+                else if (time_cnt == T_SP_PG_AVDD + T_AVDD_DLY + T_SP_PGM + T_PGM) begin // spyglass disable W362
                     AEN <= #`delay 1'b0;
                     pgm_cnt <= #`delay pgm_cnt + 1'b1;
                 end
@@ -329,9 +329,9 @@ module jlsemi_util_*Replace*smic_efuse_adapter
                     mask_data <= #`delay mask_data >> 1;
                 end
 
-                if (time_cnt == T_WR_AEN - T_PGM)
+                if (time_cnt == T_WR_AEN - T_PGM) // spyglass disable W362
                     AEN <= #`delay 1'b1;
-                else if (time_cnt == T_WR_AEN) begin
+                else if (time_cnt == T_WR_AEN) begin // spyglass disable W362
                     AEN <= #`delay 1'b0;
                     pgm_cnt <= #`delay pgm_cnt + 1'b1;
                 end
@@ -345,13 +345,13 @@ module jlsemi_util_*Replace*smic_efuse_adapter
                 else
                     time_cnt <= #`delay time_cnt + 1'b1;
 
-                if (time_cnt == T_HP_PGM)
+                if (time_cnt == T_HP_PGM) // spyglass disable W362
                     PGMEN   <= #`delay 1'b0;
-                else if (time_cnt == T_HP_PGM + T_HP_PG_AVDD) begin
+                else if (time_cnt == T_HP_PGM + T_HP_PG_AVDD) begin // spyglass disable W362
                     AVDD_EN <= #`delay 1'b0;
                     A       <= #`delay {EFUSE_DEPTH{1'b0}};
                 end
-                else if (time_cnt == T_HP_PGM + T_HP_PG_AVDD + T_AVDD_DLY + T_HP_RD)
+                else if (time_cnt == T_HP_PGM + T_HP_PG_AVDD + T_AVDD_DLY + T_HP_RD) // spyglass disable W362
                     ready   <= #`delay 1'b1;
             end
 
